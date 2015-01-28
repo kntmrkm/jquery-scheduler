@@ -1,0 +1,119 @@
+#scheduler {
+
+}
+#scheduler .clear { clear:both; height: 0; line-height: 0;}
+#scheduler .sc_menu .sc_header_cell {
+  float: left;
+  height: 26px;
+}
+#scheduler .sc_menu .sc_header {
+  float: left;
+  height: 26px;
+  position: relative;
+  overflow: hidden;
+}
+#scheduler .sc_menu {
+  border-bottom: solid 1px #ddd;
+}
+#scheduler .sc_menu .sc_header .sc_time {
+  text-align: center;
+  font-weight: bold;
+  border-left: solid 1px #ddd;
+}
+#scheduler .sc_menu .sc_header_cell,
+#scheduler .sc_data {
+  float: left;
+  font-weight: bold;
+  position: relative;
+}
+#scheduler .sc_menu .sc_header_scroll,
+#scheduler .sc_data .sc_data_scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#scheduler .sc_menu .sc_header_cell,
+#scheduler .sc_header .sc_time,
+#scheduler .sc_main_scroll .sc_time {
+  padding: 4px 0;
+  line-height: 18px;
+  display: block;
+}
+#scheduler .sc_header .sc_time,
+#scheduler .sc_main_scroll .sc_time {
+  float: left;
+}
+#scheduler .sc_main_box,
+#scheduler .sc_data {
+  max-height: 500px;
+  overflow: hidden;
+}
+#scheduler .sc_main_box {
+  float: left;
+  overflow-x: auto;
+  overflow-y: auto;
+  border-left: solid 1px #ddd;
+}
+#scheduler .sc_main_scroll {
+}
+#scheduler .sc_main {
+  position: relative;
+}
+#scheduler .timeline {
+	border-bottom: solid 1px #ddd;
+  position: relative;
+}
+#scheduler .sc_Bar {
+  position: absolute;
+  color: #fff;
+  background: #5b7e91;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 1px 1px 2px 1px #ddd;
+}
+#scheduler .ui-draggable-dragging,
+#scheduler .ui-resizeable {
+  z-index: 20;
+}
+#scheduler .sc_Bar .head {
+  display: block;
+  margin: 5px 0px 2px 10px;
+  overflow: hidden;
+}
+#scheduler .sc_Bar .text {
+  display: block;
+  margin: 0px 0px 2px 10px;
+  font-weight: bold;
+  overflow: hidden;
+}
+#scheduler .timeline,
+#scheduler .sc_main .tb {
+
+}
+#scheduler .sc_data .timeline {
+  overflow: hidden;
+}
+#scheduler .sc_data .timeline span {
+  padding: 10px;
+  display: block;
+}
+#scheduler .sc_data .timeline span.photo {
+  float: left;
+  width: 36px;
+  height: 36px;
+  padding: 10px 0 10px 10px;
+}
+#scheduler .sc_data .timeline span.title {
+  float: left;
+  margin: 10px 10px;
+}
+#scheduler .sc_main_scroll .sc_main {
+}
+#scheduler .sc_main_scroll .sc_main .tl {
+  float: left;
+  height: 100%;
+  border-right: solid 1px #ddd;
+}
+#scheduler .sc_main_scroll .sc_main .tl:hover {
+  background: #f5f5f5;
+}
