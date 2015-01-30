@@ -50,7 +50,7 @@
   overflow: hidden;
 }
 .sc_wrapper .sc_main_box {
-  position: relative; // スクロール時のずれ対策
+  position: relative;
   float: left;
   overflow-x: auto;
   overflow-y: auto;
