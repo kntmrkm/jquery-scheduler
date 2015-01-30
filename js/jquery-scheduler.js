@@ -1,5 +1,5 @@
 
-(function($) {
+$(function() {
   $.fn.timeSchedule = function(options){
     var defaults = {
       jsonURL: null,
@@ -7,11 +7,11 @@
       startTime: "07:00",
       endTime: "19:30",
       timeUnit: 600,  // 区切り時間(秒)
-      timeUnitWidth: 20,  // 1cell辺りの幅(px)
-      timeLineHeight: 50,  // timeline height(px)
-      timeBorder: 1,  // border width
-      headTimeBorder: 1, // time border width
-      dataWidth: 130,  // data width
+      timeUnitWidth: 20,
+      timeLineHeight: 50,
+      timeBorder: 1,
+      headTimeBorder: 1,
+      dataWidth: null,
       // event
       init_data: null,
       change: null,
@@ -89,35 +89,11 @@
       return num;
     };
 
-    // 背景データ追加
-    this.addScheduleBgData = function(data){
-      var st = Math.ceil((data["start"] - tableStartTime) / setting.timeUnit);
-      var et = Math.floor((data["end"] - tableStartTime) / setting.timeUnit);
-      var $bar = jQuery('<div class="sc_bgBar"><span class="text"></span></div>');
-      var stext = element.formatTime(data["start"]);
-      var etext = element.formatTime(data["end"]);
-      var snum = element.getScheduleCount(data["timeline"]);
-      $bar.css({
-        left : (st * setting.timeUnitWidth),
-        top : 0,
-        width : ((et - st) * setting.timeUnitWidth),
-        height : $element.find('.sc_main .timeline').eq(data["timeline"]).height()
-      });
-      if(data["text"]){
-        $bar.find(".text").text(data["text"]);
-      }
-      if(data["class"]){
-        $bar.addClass(data["class"]);
-      }
-      //$element.find('.sc_main').append($bar);
-      $element.find('.sc_main .timeline').eq(data["timeline"]).append($bar);
-    };
-
     // スケジュール追加
     this.addScheduleData = function(data){
       var st = Math.ceil((data["start"] - tableStartTime) / setting.timeUnit);
       var et = Math.floor((data["end"] - tableStartTime) / setting.timeUnit);
-      var $bar = jQuery('<div class="sc_Bar"><span class="head"><span class="time"></span></span><span class="text"></span></div>');
+      var $bar = $('<div class="sc_Bar"><span class="head"><span class="time"></span></span><span class="text"></span></div>');
       var stext = element.formatTime(data["start"]);
       var etext = element.formatTime(data["end"]);
       var snum = element.getScheduleCount(data["timeline"]);
@@ -126,7 +102,7 @@
         width : ((et - st) * setting.timeUnitWidth), height : (setting.timeLineHeight)
       });
       // データの表示
-      $bar.find(".time").text(stext+"-"+etext);
+      $bar.find(".time").text(stext+" ~ "+etext);
       if(data["text"]){
         $bar.find(".text").text(data["text"]);
       }
@@ -144,15 +120,16 @@
       $bar.bind("mouseup", function(){
         // コールバックがセットされていたら呼出
         if(setting.click){
-          if(jQuery(this).data("dragCheck") !== true && jQuery(this).data("resizeCheck") !== true){
-            var node = jQuery(this);
+          if($(this).data("dragCheck") !== true && $(this).data("resizeCheck") !== true){
+            var node = $(this);
             var sc_key = node.data("sc_key");
             setting.click(node, scheduleData[sc_key]);
           }
         }
       });
 
-      var $node = $element.find(".sc_Bar");
+      var $node = $bar;
+
       if (data["editable"] == true) {
         $node.draggable({
           grid: [setting.timeUnitWidth, 1],
@@ -170,29 +147,21 @@
             currentNode = node;
           },
           drag: function (event, ui) {
-            jQuery(this).data("dragCheck", true);
+            $(this).data("dragCheck", true);
             if (!currentNode) {
               return false;
             }
-            var $moveNode = jQuery(this);
+            var $moveNode = $(this);
             var sc_key = $moveNode.data("sc_key");
-            /*
-            var originalTop = ui.originalPosition.top;
-            var originalLeft = ui.originalPosition.left;
-            var positionTop = ui.position.top;
-            var positionLeft = ui.position.left;
-            ui.position.left = Math.floor(ui.position.left / setting.timeUnitWidth) * setting.timeUnitWidth;
-            currentNode["currentTop"] = ui.position.top;
-            currentNode["currentLeft"] = ui.position.left;
-            */
+
             // テキスト変更
             element.rewriteBarText($moveNode, scheduleData[sc_key]);
             return true;
           },
           // 要素の移動が終った後の処理
           stop: function (event, ui) {
-            jQuery(this).data("dragCheck", false);
-            var node = jQuery(this);
+            $(this).data("dragCheck", false);
+            var node = $(this);
             var sc_key = node.data("sc_key");
 
             //var x = node.position().left;
@@ -214,12 +183,12 @@
           grid: [setting.timeUnitWidth, setting.timeLineHeight],
           minWidth: setting.timeUnitWidth,
           start: function (event, ui) {
-            var node = jQuery(this);
+            var node = $(this);
             node.data("resizeCheck", true);
           },
           // 要素の移動が終った後の処理
           stop: function (event, ui) {
-            var node = jQuery(this);
+            var node = $(this);
             var sc_key = node.data("sc_key");
             var x = node.position().left;
             var w = node.width();
@@ -253,21 +222,16 @@
       var html;
       html = '';
       html += '<div class="timeline"><span>'+title+'</span></div>';
-      var $data = jQuery(html);
-
-      // event call
-      if(setting.init_data){
-        setting.init_data($data, row);
-      }
+      var $data = $(html);
 
       $element.find('.sc_data_scroll').append($data);
 
       html = '';
       html += '<div class="timeline"></div>';
-      var $timeline = jQuery(html);
+      var $timeline = $(html);
 
       for(var t = tableStartTime; t < tableEndTime; t += setting.timeUnit){
-        var $tl = jQuery('<div class="tl"></div>');
+        var $tl = $('<div class="tl"></div>');
         $tl.width(setting.timeUnitWidth);
         $tl.data("time", element.formatTime(t));
         $tl.data("timeline", timeline);
@@ -278,9 +242,7 @@
       if(setting.time_click){
         $timeline.find(".tl").click(function(){
           setting.time_click(
-            this,
             $(this).data("time"),
-            $(this).data("timeline"),
             timelineData[$(this).data("timeline")]
           );
         });
@@ -302,23 +264,23 @@
           var s = element.calcStringTime(bdata["start"]);
           var e = element.calcStringTime(bdata["end"]);
 
-          var scheduleData = {};
-          scheduleData["timeline"] = id;
-          scheduleData["start"] = s;
-          scheduleData["end"] = e;
-          scheduleData["editable"] = bdata["editable"];
+          var data = {};
+          data["timeline"] = id;
+          data["start"] = s;
+          data["end"] = e;
+          data["editable"] = bdata["editable"];
           if(bdata["text"]){
-            scheduleData["text"] = bdata["text"];
+            data["text"] = bdata["text"];
           }
           if(bdata["class"]){
-            scheduleData["class"] = bdata["class"];
+            data["class"] = bdata["class"];
           }
 
-          scheduleData["data"] = {};
+          data["data"] = {};
           if(bdata["data"]){
-            scheduleData["data"] = bdata["data"];
+            data["data"] = bdata["data"];
           }
-          element.addScheduleData(scheduleData);
+          element.addScheduleData(data);
         }
       }
 
@@ -327,7 +289,6 @@
       $element.find('.sc_main .timeline').eq(id).droppable({
         accept: ".sc_Bar",
         drop: function(event, ui) {
-          console.log('drop');
           var node = ui.draggable;
           var sc_key = node.data("sc_key");
           var x = node.position().left;
@@ -346,7 +307,7 @@
           node.appendTo(this);
 
           if (setting.change) {
-            setting.change(node, scheduleData[sc_key], resourceID, node);
+            setting.change(node, scheduleData[sc_key], resourceID);
           }
 
           // 高さ調整
@@ -358,7 +319,7 @@
       // コールバックがセットされていたら呼出
       if(setting.append){
         $element.find('.sc_main .timeline').eq(id).find(".sc_Bar").each(function(){
-          var node = jQuery(this);
+          var node = $(this);
           var sc_key = node.data("sc_key");
           setting.append(node, scheduleData[sc_key]);
         });
@@ -370,14 +331,14 @@
 
       for(var i in timelineData){
         if(typeof timelineData[i] == "undefined") continue;
-        var timeline = jQuery.extend(true, {}, timelineData[i]);
+        var timeline = $.extend(true, {}, timelineData[i]);
         timeline.schedule = new Array();
         data.push(timeline);
       }
 
       for(var i in scheduleData){
         if(typeof scheduleData[i] == "undefined") continue;
-        var schedule = jQuery.extend(true, {}, scheduleData[i]);
+        var schedule = $.extend(true, {}, scheduleData[i]);
         schedule.start = this.formatTime(schedule.start);
         schedule.end = this.formatTime(schedule.end);
         var timelineIndex = schedule.timeline;
@@ -394,8 +355,8 @@
       var w = node.width();
       var start = tableStartTime + (Math.floor(x / setting.timeUnitWidth) * setting.timeUnit);
       var end = tableStartTime + (Math.floor((x + w) / setting.timeUnitWidth) * setting.timeUnit);
-      var html = element.formatTime(start)+"-"+element.formatTime(end);
-      jQuery(node).find(".time").html(html);
+      var html = element.formatTime(start)+" ~ "+element.formatTime(end);
+      $(node).find(".time").html(html);
     };
 
     this.resetBarPosition = function(n){
@@ -404,7 +365,7 @@
       var codes = [];
 
       for(var i = 0; i < $bar_list.length; i++){
-        codes[i] = { code: i, x: jQuery($bar_list[i]).position().left };
+        codes[i] = { code: i, x: $($bar_list[i]).position().left };
       };
 
       // ソート
@@ -425,12 +386,12 @@
 
       for(var i = 0; i < codes.length; i++){
         c1 = codes[i]["code"];
-        $e1 = jQuery($bar_list[c1]);
+        $e1 = $($bar_list[c1]);
         for(h = 0; h < check.length; h++){
           var next = false;
           L: for(var j = 0; j < check[h].length; j++){
             c2 = check[h][j];
-            $e2 = jQuery($bar_list[c2]);
+            $e2 = $($bar_list[c2]);
 
             s1 = $e1.position().left;
             e1 = $e1.position().left + $e1.width();
@@ -461,7 +422,7 @@
       $element.find('.sc_main .timeline').eq(n).height(h * setting.timeLineHeight);
 
       $element.find('.sc_main .timeline').eq(n).find(".sc_bgBar").each(function(){
-        jQuery(this).height(jQuery(this).closest(".timeline").height());
+        $(this).height($(this).closest(".timeline").height());
       });
 
       $element.find(".sc_data").height($element.find(".sc_main_box").height());
@@ -469,23 +430,25 @@
 
     // resizeWindow
     this.resizeWindow = function(){
+      var dataWidth = setting.dataWidth;
       var sc_width = $element.width();
-      var sc_main_width = sc_width - setting.dataWidth - 1;
+      var sc_main_width = sc_width - dataWidth - 1;
       var cell_num = Math.floor((tableEndTime - tableStartTime) / setting.timeUnit);
-      $element.find(".sc_header_cell").width(setting.dataWidth);
-      $element.find(".sc_data,.sc_data_scroll").width(setting.dataWidth);
+
+      $element.find(".sc_header_cell").width(dataWidth);
+      $element.find(".sc_data_scroll").width(dataWidth);
+      $element.find(".sc_data").width(dataWidth);
       $element.find(".sc_header").width(sc_main_width);
       $element.find(".sc_main_box").width(sc_main_width);
       $element.find(".sc_header_scroll").width(setting.timeUnitWidth*cell_num);
       $element.find(".sc_main_scroll").width(setting.timeUnitWidth*cell_num);
-
     };
 
     // init
     this.init = function(){
       var html = '';
       html += '<div class="sc_menu">'+"\n";
-      html += '<div class="sc_header_cell"><span>&nbsp;</span></div>'+"\n";
+      html += '<div class="sc_header_cell"><span id="sc_date_span">&nbsp;</span></div>'+"\n";
       html += '<div class="sc_header">'+"\n";
       html += '<div class="sc_header_scroll">'+"\n";
       html += '</div>'+"\n";
@@ -516,13 +479,13 @@
         if(0 == (t % 3600)){
           var html = '';
           html += '<div class="sc_time">'+element.formatTime(t)+'</div>';
-          var $time = jQuery(html);
+          var $time = $(html);
           $time.width((3600 / setting.timeUnit) * setting.timeUnitWidth);
           $element.find(".sc_header_scroll").append($time);
         }
       }
 
-      jQuery(window).resize(function(){
+      $(window).resize(function(){
         element.resizeWindow();
       }).trigger("resize");
 
@@ -531,8 +494,14 @@
         this.addRow(i, setting.rows[i]);
       }
     };
+
     // 初期化
     this.init();
+
+    // event call
+    if(setting.init_data){
+      setting.init_data();
+    }
 
     this.debug = function(){
       var html = '';
@@ -548,7 +517,7 @@
 
         html += '</div>';
       }
-      jQuery(setting.debug).html(html);
+      $(setting.debug).html(html);
     };
     if(setting.debug && setting.debug != ""){
       setInterval(function(){ element.debug(); }, 10);
@@ -563,4 +532,4 @@
     var string = h + ':' + i;
     return string;
   };
-})(jQuery);
+});
