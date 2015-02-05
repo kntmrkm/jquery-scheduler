@@ -2,3 +2,4 @@
 /bower_components
 /.idea
 jquery-scheduler.iml
+*.DS_Store
