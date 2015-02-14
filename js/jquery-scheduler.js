@@ -273,9 +273,9 @@ $(function() {
         if (timeIsClickable) {
           $tl.addClass('clickable');
         }
-        $tl.height(setting.timeLineHeight);
-        $tl.css('padding-top', (setting.timeLineHeight / 4));
+
         $tl.width(setting.timeUnitWidth);
+        $tl.css('padding-top', (setting.timeLineHeight / 4));
         $tl.css('padding-left', (setting.timeUnitWidth / 4));
         $tl.data("time", timeString);
         $tl.data("timeline", timeline);
