@@ -11,6 +11,7 @@ $(function() {
       timeLineHeight: 50,
       timeBorder: 1,
       headTimeBorder: 1,
+      headerTitle: 'title',
       dataWidth: null,
       // event
       init_data: null,
@@ -18,6 +19,7 @@ $(function() {
       click: null,
       append: null,
       time_click: null,
+      title_click: null,
       debug: ""   // debug selecter
     };
 
@@ -97,10 +99,12 @@ $(function() {
       var stext = element.formatTime(data["start"]);
       var etext = element.formatTime(data["end"]);
       var snum = element.getScheduleCount(data["timeline"]);
+
       $bar.css({
         left : (st * setting.timeUnitWidth), top : (snum * setting.timeLineHeight),
         width : ((et - st) * setting.timeUnitWidth), height : (setting.timeLineHeight)
       });
+
       // データの表示
       $bar.find(".time").text(stext+" ~ "+etext);
       if(data["text"]){
@@ -111,9 +115,9 @@ $(function() {
       }
       //$element.find('.sc_main').append($bar);
       $element.find('.sc_main .timeline').eq(data["timeline"]).append($bar);
+
       // データの追加
       scheduleData.push(data);
-      // key
       var key = scheduleData.length - 1;
       $bar.data("sc_key", key);
 
@@ -221,10 +225,28 @@ $(function() {
       var id = $element.find('.sc_main .timeline').length;
       var html;
       html = '';
-      html += '<div class="timeline"><span>'+title+'</span></div>';
+      html += '<div class="timeline">';
+      html += '<span class="sc_title">' + title + '</span>';
+      html += '<span class="sc_subtitle">' + row["subtitle"] + '</div>';
+      html += '</div>';
       var $data = $(html);
 
+      if (row["id"] && (row["id"] != "")) {
+        $data.attr('id', row["id"]);
+      }
+
+      $data.data("timeline", timeline);
       $element.find('.sc_data_scroll').append($data);
+      // クリックイベント
+      if(setting.title_click && row['clickable'] == true){
+        var eventTarget = $element.find('.sc_data_scroll').find('.timeline');
+        eventTarget.addClass('clickable');
+        eventTarget.click(function(){
+          setting.title_click(
+            timelineData[$(this).data("timeline")]
+          );
+        });
+      }
 
       html = '';
       html += '<div class="timeline"></div>';
@@ -232,21 +254,43 @@ $(function() {
 
       for(var t = tableStartTime; t < tableEndTime; t += setting.timeUnit){
         var $tl = $('<div class="tl"></div>');
+        var timeString = element.formatTime(t);
+        var timeIsClickable = true;
+
+        if (row['time']) {
+          for (var i in row['time']) {
+            if (row['time'][i].time == timeString) {
+              $tl.html('<small class="tl_text">' + row['time'][i].text + '</small>');
+              if (!row['time'][i].clickable) {
+                timeIsClickable = false;
+              }
+            }
+          }
+        }
+        if (timeIsClickable) {
+          $tl.addClass('clickable');
+        }
+        $tl.height(setting.timeLineHeight);
+        $tl.css('padding-top', (setting.timeLineHeight / 4));
         $tl.width(setting.timeUnitWidth);
-        $tl.data("time", element.formatTime(t));
+        $tl.css('padding-left', (setting.timeUnitWidth / 4));
+        $tl.data("time", timeString);
         $tl.data("timeline", timeline);
         $timeline.append($tl);
+
+        // クリックイベント
+        if(setting.time_click && timeIsClickable){
+          $tl.click(function(){
+            setting.time_click(
+              $(this).data("time"),
+              timelineData[$(this).data("timeline")]
+            );
+          });
+        }
       }
 
-      // クリックイベント
-      if(setting.time_click){
-        $timeline.find(".tl").click(function(){
-          setting.time_click(
-            $(this).data("time"),
-            timelineData[$(this).data("timeline")]
-          );
-        });
-      }
+
+
       $timeline.data("resource_id", row.resource_id);
       $element.find('.sc_main').append($timeline);
 
@@ -258,7 +302,7 @@ $(function() {
       }
 
       // スケジュールタイムライン
-      if(row["schedule"]){
+      if (row["schedule"]) {
         for(var i in row["schedule"]){
           var bdata = row["schedule"][i];
           var s = element.calcStringTime(bdata["start"]);
@@ -420,7 +464,6 @@ $(function() {
       var h = Math.max(height,1);
       $element.find('.sc_data .timeline').eq(n).height(h * setting.timeLineHeight);
       $element.find('.sc_main .timeline').eq(n).height(h * setting.timeLineHeight);
-
       $element.find('.sc_main .timeline').eq(n).find(".sc_bgBar").each(function(){
         $(this).height($(this).closest(".timeline").height());
       });
@@ -448,7 +491,13 @@ $(function() {
     this.init = function(){
       var html = '';
       html += '<div class="sc_menu">'+"\n";
-      html += '<div class="sc_header_cell"><span id="sc_date_span">&nbsp;</span></div>'+"\n";
+      html += '<div class="sc_header_cell"><span id="sc_date_span">'+"\n";
+      if (setting.headerTitle != '') {
+        html += setting.headerTitle;
+      } else {
+        html += '&nbsp;';
+      }
+      html += '</span></div>'+"\n";
       html += '<div class="sc_header">'+"\n";
       html += '<div class="sc_header_scroll">'+"\n";
       html += '</div>'+"\n";
