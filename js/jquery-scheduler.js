@@ -222,12 +222,14 @@ $(function() {
     // add
     this.addRow = function(timeline, row){
       var title = row["title"];
+      var subtitle = row["subtitle"];
       var id = $element.find('.sc_main .timeline').length;
       var html;
+      if (!subtitle) { subtitle = '' };
       html = '';
       html += '<div class="timeline">';
       html += '<span class="sc_title">' + title + '</span>';
-      html += '<span class="sc_subtitle">' + row["subtitle"] + '</div>';
+      html += '<span class="sc_subtitle">' + subtitle + '</div>';
       html += '</div>';
       var $data = $(html);
 
