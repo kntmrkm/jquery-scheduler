@@ -236,12 +236,9 @@ $(function() {
       if (row["id"] && (row["id"] != "")) {
         $data.attr('id', row["id"]);
       }
-
-      $data.data("timeline", timeline);
-      $element.find('.sc_data_scroll').append($data);
       // クリックイベント
       if(setting.title_click && row['clickable'] == true){
-        var eventTarget = $element.find('.sc_data_scroll').find('.timeline');
+        var eventTarget = $data;
         eventTarget.addClass('clickable');
         eventTarget.click(function(){
           setting.title_click(
@@ -249,6 +246,10 @@ $(function() {
           );
         });
       }
+
+      $data.data("timeline", timeline);
+      $element.find('.sc_data_scroll').append($data);
+
 
       html = '';
       html += '<div class="timeline"></div>';
