@@ -493,6 +493,7 @@ $(function() {
     // init
     this.init = function(){
       var html = '';
+      html += '<div class="sc_wrapper">'+"\n";
       html += '<div class="sc_menu">'+"\n";
       html += '<div class="sc_header_cell"><span id="sc_date_span">'+"\n";
       if (setting.headerTitle != '') {
@@ -507,7 +508,7 @@ $(function() {
       html += '</div>'+"\n";
       html += '<br class="clear" />'+"\n";
       html += '</div>'+"\n";
-      html += '<div class="sc_wrapper">'+"\n";
+
       html += '<div class="sc_data">'+"\n";
       html += '<div class="sc_data_scroll">'+"\n";
       html += '</div>'+"\n";
@@ -519,6 +520,7 @@ $(function() {
       html += '</div>'+"\n";
       html += '</div>'+"\n";
       html += '<br class="clear" />'+"\n";
+
       html += '</div>'+"\n";
 
       $element.append(html);

@@ -7,23 +7,32 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" language="javascript"></script>
 <script src="bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript" language="javascript"></script>
-<link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/resizable.css" />
-
-<script type="text/javascript" src="js/jquery-scheduler.js"></script>
-<link rel="stylesheet" type="text/css" href="css/jquery-scheduler.css" />
-
-<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery-scheduler.js"></script>
+
+<link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/resizable.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-scheduler.css" />
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+
 <style>
   body {
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
   }
 </style>
-<script type="text/javascript">
-  $(document).ready(function(){
+
+</head>
+<body>
+  <div class="container">
+
+    <div id="scheduler"></div>
+    
+  </div>  <!-- /container -->
+
+  <script type="text/javascript">
+  $(function() {
     init_scheduler = function(data) {
       $('#scheduler').empty();
-      var $sc = $("#scheduler").timeSchedule({
+      $("#scheduler").timeSchedule({
         startTime: data.start_time, // schedule start time(HH:ii)
         endTime: data.end_time,   // schedule end time(HH:ii)
         timeUnit: data.time_unit,  // cell timestamp 10 minutes
@@ -34,30 +43,7 @@
         dataWidth: 200,
         rows: data.rows,
         change: function (node, scheduleData, resource_id) {
-          //console.log(revertStringTime(data.start));
-          var url, params;
-          url = 'http://lvh.me:3000/reservations/' + scheduleData.data.token + '/modify'
-          params = {
-            _method: 'patch'
-          };
-          params['reservation'] = {
-            modify_by_timeline: true,
-            name: '',
-            start_time: revertStringTime(scheduleData.start),
-            minutes: ((scheduleData.end - scheduleData.start) / 60),
-            facility_id: resource_id
-          };
-          $.ajax({
-            type: 'PATCH',
-            url: url,
-            data: params
-          }).done(function(data, status, xhr){
-            console.log(xhr.status);
-          }).fail(function(data, status, xhr, error){
-            fetch_schedule();
-            console.log(data);
-            //scheduleData.result = 'error';
-          });
+          console.log('change bar');
         },
         init_data: function (node, data) {
         },
@@ -75,7 +61,8 @@
       });
     }
 
-    /*fetch_schedule = function() {
+    /*
+    fetch_schedule = function() {
       $.ajax({
         type: 'GET',
         url: 'http://lvh.me:3000/schedule/index.json?domain_name=izakaya',
@@ -86,7 +73,7 @@
         }
       });
     };
-    fetch_schedule();*/
+    */
 
     fetch_schedule = function() {
       var data;
@@ -105,6 +92,7 @@
               end:'15:00',
               text:'Text Area',
               class: 'bar_class',
+              editable: true,
               data:{
                 id: '999',
                 token: 'token'
@@ -114,6 +102,7 @@
               start:'11:00',
               end:'14:00',
               text:'Text Area',
+              editable: true,
               data:{
               }
             }
@@ -134,6 +123,7 @@
               start:'16:00',
               end:'17:00',
               text:'Text Area',
+              editable: true,
               data:{
               }
             }
@@ -150,185 +140,21 @@
               start:'16:00',
               end:'17:00',
               text:'Text Area',
+              editable: true,
               data:{
               }
             }
           ]
         }],
         start_time: '9:00',
-        end_time: '24:00',
+        end_time: '23:00',
         time_unit: 900
       };
       init_scheduler(data);
     };
 
     fetch_schedule();
-
-
   });
-</script>
-</head>
-<body>
-  <div class="container">
-    <div class="sc_wrapper">
-      <div id="scheduler"></div>
-    </div>
-
-    <h2 id="option">Option</h2>
-    <p>
-      <table class="table table-striped">
-      <tr>
-      <th colspan="2">name</th>
-      <th width="80">Type</th>
-      <th>description</th>
-      </tr>
-      <tr>
-      <td colspan="2">startTime</td>
-      <td>String(HH:ii)</td>
-      <td>schedule start time</td>
-      </tr>
-      <tr>
-      <td colspan="2">endTime</td>
-      <td>String(HH:ii)</td>
-      <td>schedule end time</td>
-      </tr>
-      <tr>
-      <td colspan="2">widthTime</td>
-      <td>Integer</td>
-      <td>minuite time line cell</td>
-      </tr>
-      <tr>
-      <td colspan="2">timeLineY</td>
-      <td>Integer</td>
-      <td>cell height px</td>
-      </tr>
-      <tr>
-      <td colspan="2">verticalScrollbar</td>
-      <td>Integer</td>
-      <td>scrollbar (px)</td>
-      </tr>
-      <tr>
-      <td colspan="2">timeLineBorder</td>
-      <td>Integer</td>
-      <td>border(top and bottom)</td>
-      </tr>
-      <tr>
-      <td colspan="2">debug</td>
-      <td>String,element</td>
-      <td>debug string output elements</td>
-      </tr>
-      <tr>
-      <td rowspan="3">rows</td>
-      <td></td>
-      <td>Array</td>
-      <td>Schedule Data</td>
-      </tr>
-      <tr>
-      <td>title</td>
-      <td>String</td>
-      <td>Schedule Left Cell Text</td>
-      </tr>
-      <tr>
-      <td>schedule</td>
-      <td>Array</td>
-      <td>Schedule Cell Data</td>
-      </tr>
-      <tr>
-      <td colspan="2">change</td>
-      <td>function</td>
-      <td>callback change time</td>
-      </tr>
-      <tr>
-      <td colspan="2">click</td>
-      <td>function</td>
-      <td>callback click time</td>
-      </tr>
-      <tr>
-      <td colspan="2">time_click</td>
-      <td>function</td>
-      <td>callback timebar click</td>
-      </tr>
-      <tr>
-      <td colspan="2">append</td>
-      <td>function</td>
-      <td>callback append time</td>
-      </tr>
-      </table>
-    </p>
-
-    <h2 id="option">Schedule Data</h2>
-    <p>
-      <table class="table table-striped">
-      <tr>
-      <th colspan="2">name</th>
-      <th width="80">Type</th>
-      <th>description</th>
-      </tr>
-      <tr>
-      <td colspan="2">title</td>
-      <td>String</td>
-      <td>Visible Text Schedule Bar</td>
-      </tr>
-      <tr>
-      <td colspan="2">class</td>
-      <td>String</td>
-      <td>add class name</td>
-      </tr>
-      <tr>
-      <td rowspan="5">schedule</td>
-      <td colspan="2">array</td>
-      <td>add schedule data</td>
-      </tr>
-      <tr>
-      <td>start</td>
-      <td>String</td>
-      <td>time String(HH:ii)</td>
-      </tr>
-      <tr>
-      <td>end</td>
-      <td>String</td>
-      <td>time String(HH:ii)</td>
-      </tr>
-      <tr>
-      <td>text</td>
-      <td>String</td>
-      <td>Show Text</td>
-      </tr>
-      <tr>
-      <td>data</td>
-      <td>Object,Array</td>
-      <td>callback data Object</td>
-      </tr>
-      </table>
-    </p>
-  </div>  <!-- /container -->
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Launch demo modal
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          <div id="scheduler"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="footer">
-  <div class="container">
-  <p class="muted credit">Copyright © 2014 <a href="https://github.com/ateliee" target="_blank">ateliee</a> inc. All Rights Reserved.</p>
-  </div>
-  </div>
-  </div>
+  </script>
 </body>
 </html>

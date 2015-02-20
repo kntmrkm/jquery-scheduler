@@ -47,16 +47,14 @@
 .sc_wrapper .sc_main_scroll .sc_time {
   float: left;
 }
-.sc_wrapper .sc_main_box,
+
 .sc_wrapper .sc_data {
-  max-height: 500px;
   overflow: hidden;
 }
 .sc_wrapper .sc_main_box {
   position: relative;
   float: left;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow: auto;
   border-left: 1px solid #ddd;
 }
 .sc_wrapper .sc_main_scroll {
@@ -93,10 +91,6 @@
   overflow: hidden;
   white-space: nowrap;
 }
-.sc_wrapper .timeline,
-.sc_wrapper .sc_main .tb {
-
-}
 .sc_wrapper .sc_data .timeline {
   overflow: hidden;
 }
@@ -109,12 +103,6 @@
   display: block;
   font-weight: normal;
   font-size: 12px;
-}
-.sc_wrapper .sc_data .timeline span.photo {
-  float: left;
-  width: 36px;
-  height: 36px;
-  padding: 10px 0 10px 10px;
 }
 
 .sc_wrapper .sc_main_scroll .sc_main .timeline {
