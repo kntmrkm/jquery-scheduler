@@ -28,7 +28,7 @@
   $(function() {
     init_scheduler = function(data) {
       $('#scheduler').empty();
-      $("#scheduler").timeSchedule({
+      $("#scheduler").scheduler({
         startTime: data.start_time, // schedule start time(HH:ii)
         endTime: data.end_time,   // schedule end time(HH:ii)
         timeUnit: data.time_unit,  // cell timestamp 10 minutes
@@ -148,7 +148,7 @@
       };
       init_scheduler(data);
     };
-    
+
 
     fetch_schedule();
   });

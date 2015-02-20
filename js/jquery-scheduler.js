@@ -1,6 +1,5 @@
-
 $(function() {
-  $.fn.timeSchedule = function(options){
+  $.fn.scheduler = function(options){
     var defaults = {
       jsonURL: null,
       rows : {},
@@ -80,7 +79,6 @@ $(function() {
       return num;
     };
 
-    // スケジュール数の取得
     this.getScheduleCount = function(n){
       var num = 0;
       for(var i in scheduleData){
@@ -91,7 +89,6 @@ $(function() {
       return num;
     };
 
-    // スケジュール追加
     this.addScheduleData = function(data){
       var st = Math.ceil((data["start"] - tableStartTime) / setting.timeUnit);
       var et = Math.floor((data["end"] - tableStartTime) / setting.timeUnit);
@@ -219,7 +216,6 @@ $(function() {
       return key;
     };
 
-    // add
     this.addRow = function(timeline, row){
       var title = row["title"];
       var subtitle = row["subtitle"];
@@ -249,7 +245,6 @@ $(function() {
 
       $data.data("timeline", timeline);
       $element.find('.sc_data_scroll').append($data);
-
 
       html = '';
       html += '<div class="timeline"></div>';
@@ -291,8 +286,6 @@ $(function() {
           });
         }
       }
-
-
 
       $timeline.data("resource_id", row.resource_id);
       $element.find('.sc_main').append($timeline);
@@ -474,7 +467,6 @@ $(function() {
       $element.find(".sc_data").height($element.find(".sc_main_box").height());
     };
 
-    // resizeWindow
     this.resizeWindow = function(){
       var dataWidth = setting.dataWidth;
       var sc_width = $element.width();
@@ -490,7 +482,6 @@ $(function() {
       $element.find(".sc_main_scroll").width(setting.timeUnitWidth*cell_num);
     };
 
-    // init
     this.init = function(){
       var html = '';
       html += '<div class="sc_wrapper">'+"\n";
@@ -577,13 +568,5 @@ $(function() {
       setInterval(function(){ element.debug(); }, 10);
     }
     return( this );
-  };
-
-  // not using
-  revertStringTime = function(integer) {
-    var h = Math.floor(integer / (3600));
-    var i = Math.floor((integer - (h * 3600)) / 60);
-    var string = h + ':' + i;
-    return string;
   };
 });
