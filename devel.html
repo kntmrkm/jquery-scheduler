@@ -138,6 +138,22 @@
               }
             }
           ]
+        },
+        {
+          title : 'Title Area',
+          resource_id: null,
+          resource_name: 'Resource',
+          class: 'resource_class',
+          id: 'resource_id_1',
+          schedule:[
+            {
+              start:'16:00',
+              end:'17:00',
+              text:'Text Area',
+              data:{
+              }
+            }
+          ]
         }],
         start_time: '9:00',
         end_time: '24:00',
@@ -157,6 +173,7 @@
     <div class="sc_wrapper">
       <div id="scheduler"></div>
     </div>
+
     <h2 id="option">Option</h2>
     <p>
       <table class="table table-striped">
@@ -285,6 +302,28 @@
       </table>
     </p>
   </div>  <!-- /container -->
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <div id="scheduler"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="footer">
   <div class="container">
   <p class="muted credit">Copyright © 2014 <a href="https://github.com/ateliee" target="_blank">ateliee</a> inc. All Rights Reserved.</p>
