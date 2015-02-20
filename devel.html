@@ -6,26 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" language="javascript"></script>
-<script src="bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript" language="javascript"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript" language="javascript"></script>
 <script type="text/javascript" src="js/jquery-scheduler.js"></script>
 
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/resizable.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery-scheduler.css" />
-<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
-
+<link rel="stylesheet" href="http://lvh.me:3000/assets/application.css" />
 <style>
-  body {
-    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-  }
+  body { padding-top: 60px; }
 </style>
-
 </head>
+
 <body>
   <div class="container">
-
     <div id="scheduler"></div>
-    
   </div>  <!-- /container -->
 
   <script type="text/javascript">
@@ -59,21 +55,21 @@
           console.log('title click');
         }
       });
-    }
+    };
 
-    /*
-    fetch_schedule = function() {
+
+    /*fetch_schedule = function() {
       $.ajax({
         type: 'GET',
-        url: 'http://lvh.me:3000/schedule/index.json?domain_name=izakaya',
+        url: 'http://lvh.me:3000/scheduler/facility.json?domain_name=izakaya',
         dataType: 'json',
         success: function (data) {
           //console.log(JSON.stringify(data));
           init_scheduler(data);
         }
       });
-    };
-    */
+    };*/
+
 
     fetch_schedule = function() {
       var data;
@@ -152,6 +148,7 @@
       };
       init_scheduler(data);
     };
+    
 
     fetch_schedule();
   });
