@@ -4,7 +4,6 @@
 .sc_wrapper .clear { clear:both; height: 0; line-height: 0;}
 .sc_wrapper .sc_menu .sc_header_cell {
   float: left;
-  height: 26px;
   text-align: center;
 }
 .sc_wrapper .sc_menu .sc_header {
@@ -16,14 +15,13 @@
 .sc_wrapper .sc_menu {
   border-bottom: 1px solid #ddd;
 }
-.sc_wrapper .sc_menu .sc_header .sc_time {
+.sc_wrapper .sc_menu .sc_header .sc_time,
+.sc_wrapper .sc_menu .sc_header_cell {
   text-align: center;
   font-weight: bold;
   border-right: 1px solid #ddd;
 }
-.sc_wrapper .sc_menu .sc_header_cell {
-  border-right: 1px solid #ddd;
-}
+ 
 .sc_wrapper .sc_menu .sc_header_cell,
 .sc_wrapper .sc_data {
   float: left;

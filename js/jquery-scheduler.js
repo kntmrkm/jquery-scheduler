@@ -92,7 +92,11 @@ $(function() {
     this.addScheduleData = function(data){
       var st = Math.ceil((data["start"] - tableStartTime) / setting.timeUnit);
       var et = Math.floor((data["end"] - tableStartTime) / setting.timeUnit);
-      var $bar = $('<div class="sc_Bar"><span class="head"><span class="time"></span></span><span class="text"></span></div>');
+      var $bar = $('<div class="sc_Bar">\
+        <span class="head">\
+        <span class="time"></span>\
+        <span class="time_text"></span></span>\
+        <span class="text"></span></div>');
       var stext = element.formatTime(data["start"]);
       var etext = element.formatTime(data["end"]);
       var snum = element.getScheduleCount(data["timeline"]);
@@ -104,6 +108,7 @@ $(function() {
 
       // データの表示
       $bar.find(".time").text(stext+" ~ "+etext);
+      $bar.find(".time_text").text(data["time_text"]);
       if(data["text"]){
         $bar.find(".text").text(data["text"]);
       }
@@ -309,6 +314,9 @@ $(function() {
           data["start"] = s;
           data["end"] = e;
           data["editable"] = bdata["editable"];
+          if(bdata["time_text"]){
+            data["time_text"] = bdata["time_text"];
+          }
           if(bdata["text"]){
             data["text"] = bdata["text"];
           }
@@ -519,6 +527,7 @@ $(function() {
         $element.find(".sc_data_scroll").css("top", $(this).scrollTop() * -1);
         $element.find(".sc_header_scroll").css("left", $(this).scrollLeft() * -1);
       });
+
       // add time cell
       for(var t = tableStartTime; t < tableEndTime; t += setting.timeUnit){
         if(0 == (t % 3600)){
