@@ -123,3 +123,7 @@
 .sc_wrapper .sc_main_scroll .sc_main .tl.clickable:focus {
   background: #f5f5f5;
 }
+
+.sc_wrapper .sc_main_scroll .sc_main .tl.disabled {
+  background: #eee;
+}
