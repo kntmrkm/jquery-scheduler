@@ -104,9 +104,9 @@
               }
             }
           ],
-          time: [
-            { time: '09:00', text: '予約不可', clickable: false },
-            { time: '10:00', text: 'disabled', clickable: true }
+          disabled_time: [
+            { start_time: '09:00', end_time: '10:00', text: '予約不可', clickable: false },
+            { start_time: '15:00', end_time: '15:45', text: 'disabled', clickable: true }
           ]
         },
         {
@@ -147,6 +147,7 @@
         end_time: '23:00',
         time_unit: 900
       };
+
       init_scheduler(data);
     };
 

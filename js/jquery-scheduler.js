@@ -226,6 +226,8 @@ $(function() {
       var subtitle = row["subtitle"];
       var id = $element.find('.sc_main .timeline').length;
       var html;
+      var baseDate = '2000/01/01 ';
+
       if (!subtitle) { subtitle = '' };
       html = '';
       html += '<div class="timeline">';
@@ -259,19 +261,40 @@ $(function() {
         var $tl = $('<div class="tl"></div>');
         var timeString = element.formatTime(t);
         var timeIsClickable = true;
+        var timeIsDisabled = false;
+        var timeDate = new Date(baseDate + timeString);
 
-        if (row['time']) {
-          for (var i in row['time']) {
-            if (row['time'][i].time == timeString) {
-              $tl.html('<small class="tl_text">' + row['time'][i].text + '</small>');
-              if (!row['time'][i].clickable) {
+        //console.log(timeString);
+        if (row['disabled_time']) {
+          for (var i in row['disabled_time']) {
+            var disabledText = row['disabled_time'][i].text;
+            var startTimeString = row['disabled_time'][i].start_time;
+            var endTimeString = row['disabled_time'][i].end_time;
+            var startTimeDate = new Date(baseDate + startTimeString);
+            var endTimeDate = new Date(baseDate + endTimeString);
+
+            if ((startTimeString == timeString) && (disabledText != '')) {
+              $tl.html('<small class="tl_text">' + disabledText + '</small>');
+            }
+            
+            if ((timeDate >= startTimeDate) && (timeDate < endTimeDate)) {
+              timeIsDisabled = true;
+
+              if (!row['disabled_time'][i].clickable) {
                 timeIsClickable = false;
               }
             }
           }
         }
+
+        if (timeIsDisabled) {
+          $tl.addClass('disabled');
+        }
+
         if (timeIsClickable) {
           $tl.addClass('clickable');
+        } else {
+          $tl.addClass('unclickable');
         }
 
         $tl.width(setting.timeUnitWidth);
