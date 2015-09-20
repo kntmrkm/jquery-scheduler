@@ -93,10 +93,11 @@ $(function() {
       var st = Math.ceil((data["start"] - tableStartTime) / setting.timeUnit);
       var et = Math.floor((data["end"] - tableStartTime) / setting.timeUnit);
       var $bar = $('<div class="sc_Bar">\
+        <span class="text"></span>\
         <span class="head">\
         <span class="time"></span>\
         <span class="time_text"></span></span>\
-        <span class="text"></span></div>');
+        </div>');
       var stext = element.formatTime(data["start"]);
       var etext = element.formatTime(data["end"]);
       var snum = element.getScheduleCount(data["timeline"]);
@@ -107,7 +108,8 @@ $(function() {
       });
 
       // データの表示
-      $bar.find(".time").text(stext+" ~ "+etext);
+      //$bar.find(".time").text(stext+" ~ "+etext);
+      $bar.find(".time").text("~"+etext+" ");
       $bar.find(".time_text").text(data["time_text"]);
       if(data["text"]){
         $bar.find(".text").text(data["text"]);

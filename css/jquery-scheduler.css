@@ -78,13 +78,17 @@
 }
 .sc_wrapper .sc_Bar .head {
   display: block;
-  margin: 5px 0px 2px 10px;
+  margin: 0px 0px 2px 10px;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 12px;
+}
+.sc_wrapper .sc_Bar .head .time {
+  font-weight: bold;
 }
 .sc_wrapper .sc_Bar .text {
   display: block;
-  margin: 0px 0px 2px 10px;
+  margin: 5px 0px 2px 10px;
   font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
@@ -100,7 +104,7 @@
   padding: 0px 10px;
   display: block;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .sc_wrapper .sc_main_scroll .sc_main .timeline {
@@ -125,5 +129,5 @@
 }
 
 .sc_wrapper .sc_main_scroll .sc_main .tl.disabled {
-  background: #eee;
+  background: #ccc;
 }
