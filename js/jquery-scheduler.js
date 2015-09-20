@@ -270,14 +270,22 @@ $(function() {
             var disabledText = row['disabled_time'][i].text;
             var startTimeString = row['disabled_time'][i].start_time;
             var endTimeString = row['disabled_time'][i].end_time;
-            var startTimeDate = new Date(baseDate + startTimeString);
-            var endTimeDate = new Date(baseDate + endTimeString);
+            var startTimeDate, endTimeDate;
+
+            if (endTimeString == '24:00') { endTimeString = '23:59' }
+
+            startTimeDate = new Date(baseDate + startTimeString);
+            endTimeDate = new Date(baseDate + endTimeString);
+
+            //console.log(timeDate);
+            //console.log(startTimeDate);
+            //console.log(endTimeDate);
 
             if ((startTimeString == timeString) && (disabledText != '')) {
               $tl.html('<small class="tl_text">' + disabledText + '</small>');
             }
             
-            if ((timeDate >= startTimeDate) && (timeDate < endTimeDate)) {
+            if ((startTimeString == timeString) || ((timeDate >= startTimeDate) && (timeDate < endTimeDate))) {
               timeIsDisabled = true;
 
               if (!row['disabled_time'][i].clickable) {
