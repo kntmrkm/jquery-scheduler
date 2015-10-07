@@ -522,7 +522,7 @@ $(function() {
         $(this).height($(this).closest(".timeline").height());
       });
 
-      $element.find(".sc_data").height($element.find(".sc_main_box").height() + 30);
+      $element.find(".sc_data").height($element.find(".sc_main_box").height());
     };
 
     this.resizeWindow = function(){
@@ -598,7 +598,7 @@ $(function() {
         this.addRow(i, setting.rows[i]);
       }
       if(setting.touchScroll) {
-        this.addTouchScroll();
+        //this.addTouchScroll();
       }  
     };
 
