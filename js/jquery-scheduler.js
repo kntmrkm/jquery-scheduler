@@ -109,7 +109,7 @@ $(function() {
 
       // データの表示
       //$bar.find(".time").text(stext+" ~ "+etext);
-      $bar.find(".time").text("~"+etext+" ");
+      $bar.find(".time").text("~ "+etext+" ");
       $bar.find(".time_text").text(data["time_text"]);
       if(data["text"]){
         $bar.find(".text").text(data["text"]);
@@ -223,6 +223,22 @@ $(function() {
       return key;
     };
 
+    this.addTouchScroll = function() {
+      var html;
+      
+      html = '';
+      html += '<div class="touch_scroll"><br class="touch_scroll_br"></div>';
+      var $data = $(html);
+
+      $element.find('.sc_data_scroll').append($data);
+
+      html = '';
+      html += '<div class="touch_scroll"><br class="touch_scroll_br"></div>';
+      var $touchScroll = $(html);
+
+      $element.find('.sc_main').append($touchScroll);  
+    };
+
     this.addRow = function(timeline, row){
       var title = row["title"];
       var subtitle = row["subtitle"];
@@ -334,7 +350,7 @@ $(function() {
         $element.find('.sc_data .timeline').eq(id).addClass(row["class"]);
         $element.find('.sc_main .timeline').eq(id).addClass(row["class"]);
       }
-
+      
       // スケジュールタイムライン
       if (row["schedule"]) {
         for(var i in row["schedule"]){
@@ -505,7 +521,7 @@ $(function() {
         $(this).height($(this).closest(".timeline").height());
       });
 
-      $element.find(".sc_data").height($element.find(".sc_main_box").height());
+      $element.find(".sc_data").height($element.find(".sc_main_box").height() + 30);
     };
 
     this.resizeWindow = function(){
@@ -580,6 +596,7 @@ $(function() {
       for(var i in setting.rows){
         this.addRow(i, setting.rows[i]);
       }
+      this.addTouchScroll();
     };
 
     // 初期化

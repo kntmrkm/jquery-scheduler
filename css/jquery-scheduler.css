@@ -131,3 +131,8 @@
 .sc_wrapper .sc_main_scroll .sc_main .tl.disabled {
   background: #ccc;
 }
+
+/* touch scroll */
+.sc_wrapper .touch_scroll .touch_scroll_br {
+  line-height: 2.0;
+}
