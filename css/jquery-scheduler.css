@@ -125,7 +125,7 @@
 .sc_wrapper .sc_data_scroll .clickable:hover,
 .sc_wrapper .sc_main_scroll .sc_main .tl.clickable:hover,
 .sc_wrapper .sc_main_scroll .sc_main .tl.clickable:focus {
-  background: #f5f5f5;
+  background: #eee;
 }
 
 .sc_wrapper .sc_main_scroll .sc_main .tl.disabled {

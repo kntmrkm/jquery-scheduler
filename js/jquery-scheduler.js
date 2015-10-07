@@ -598,7 +598,7 @@ $(function() {
         this.addRow(i, setting.rows[i]);
       }
       if(setting.touchScroll) {
-        //this.addTouchScroll();
+        this.addTouchScroll();
       }  
     };
 
