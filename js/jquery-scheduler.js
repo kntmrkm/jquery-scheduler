@@ -19,6 +19,7 @@ $(function() {
       append: null,
       time_click: null,
       title_click: null,
+      touchScroll: false,
       debug: ""   // debug selecter
     };
 
@@ -596,7 +597,9 @@ $(function() {
       for(var i in setting.rows){
         this.addRow(i, setting.rows[i]);
       }
-      this.addTouchScroll();
+      if(setting.touchScroll) {
+        this.addTouchScroll();
+      }  
     };
 
     // 初期化
